@@ -26,7 +26,7 @@ class Server {
 
   listen() {
     this.app.listen(this.port, () => {
-      console.log("process.env.PORT", this.port);
+      console.log("process.env.PORT", `http://localhost:${this.port}`);
     });
   }
 }

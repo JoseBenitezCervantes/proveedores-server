@@ -1,6 +1,7 @@
 const { response } = require("express");
 
 const usuariosGet = (req, res = response) => {
+console.log("🚀 ~ file: usuarios.controller.js ~ line 4 ~ usuariosGet ~ res", res)
 console.log("🚀 ~ file: usuarios.controller.js ~ line 4 ~ usuariosGet ~ req", req)
   res.status(200).json({ msg: "Hello World" });
 };
