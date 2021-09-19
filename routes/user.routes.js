@@ -1,9 +1,8 @@
 const { Router } = require("express");
-const { usuariosGet, addUser } = require("../controllers/usuarios.controller");
+const { middlewareResolve } = require("../controllers/usuarios.controller");
 
 const router = Router();
 
-router.get("/", usuariosGet);
-router.post("/", addUser);
+router.get("/getUsers", middlewareResolve);
 
-module.exports = router;
+module.exports = router; 
