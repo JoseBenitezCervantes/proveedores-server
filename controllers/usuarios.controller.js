@@ -3,7 +3,8 @@ const { listPath } = require("../routes/ListRoutes");
 
 const middlewareResolve = async (req, res, next) => {
   const data = req.body;
-  const pathRequest = req?.url;
+  const pathRequest = req?.url; //Endpoint del front
+  // El endpoint y method que debe resolver el middleware
   const { resolveMiddleware: pathResolve, methodResolve: method } =
     listPath.find((x) => x.requestFront === pathRequest) ?? {};
   
@@ -18,6 +19,7 @@ const middlewareResolve = async (req, res, next) => {
       const dataResult = response?.data;
       res.status(200).json({ code: 0, message: "Respuesta exitosa", data: dataResult});
       next();
+      
     } catch (error) {
       const message = error?.message;
 
