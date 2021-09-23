@@ -1,34 +1,42 @@
 const axios = require("axios");
-const { response } = require("express");
 const { listPath } = require("../routes/ListRoutes");
 
-const middlewareResolve = async (req, res = response) => {
-  const pathRequest = req.route.path;
-  const pathResolve = listPath.find( (x) => x.requestFront === pathRequest)?.responseMiddleware;
+const middlewareResolve = async (req, res, next) => {
+  const data = req.body;
+  const pathRequest = req?.url;
+  const { resolveMiddleware: pathResolve, methodResolve: method } =
+    listPath.find((x) => x.requestFront === pathRequest) ?? {};
   
   if (pathResolve) {
     try {
-      const response = await axios(pathResolve);
+      const response = await axios({
+        method,
+        url: pathResolve,
+        data
+      });
+       
       const dataResult = response?.data;
       res.status(200).json({ code: 0, message: "Respuesta exitosa", data: dataResult});
-
+      next();
     } catch (error) {
       const message = error?.message;
-      console.log("🚀 ~ file: usuarios.controller.js ~ line 17 ~ middlewareResolve ~ message", message)
 
       if (error.response) {  // Request made and server responded
         const status = error?.response?.status;
-        res.status(200).json({ code: 1, message, data: {status} });
+        res.status(status).json({ code: status, message, data: {status} });
+        next();
 
       } else if (error.request) { // The request was made but no response was received
-        res.status(200).json({ code: 1, message: `The request was made but no response was received. CATCH ERROR: ${message}`, data: {} });
+        res.status(500).json({ code: 500, message: `The request was made but no response was received. CATCH ERROR: ${message}`, data: {} });
+        next();
 
       } else {// Something happened in setting up the request that triggered an Error
-        res.status(200).json({ code: 1, message, data: {} });
+        res.status(500).json({ code: 500, message, data: {} });
+        next();
       }
     }
   } else {
-    res.status(200).json({ code: 1, message: "No se encontro pathResolve", data:{} });
+    res.status(404).json({ code: 404, message: "No se encontro pathResolve", data:{} });
   }
 };
 
