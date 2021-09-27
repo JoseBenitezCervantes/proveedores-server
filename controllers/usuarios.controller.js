@@ -1,5 +1,6 @@
 const axios = require("axios");
 const { listPath } = require("../routes/ListRoutes");
+const { claireError , claireTrace } = require("../helper/Logs");
 
 const middlewareResolve = async (req, res, next) => {
   const data = req.body;
@@ -39,6 +40,7 @@ const middlewareResolve = async (req, res, next) => {
     }
   } else {
     res.status(404).json({ code: 404, message: "No se encontro pathResolve", data:{} });
+    next();
   }
 };
 
