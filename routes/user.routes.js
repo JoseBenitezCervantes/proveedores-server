@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const { middlewareResolve } = require("../controllers/usuarios.controller");
-const { claireError, claireTrace } = require("../helper/Logs");
 
 const router = Router();
 

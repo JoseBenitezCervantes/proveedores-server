@@ -39,7 +39,7 @@ const middlewareResolve = async (req, res, next) => {
       }
     }
   } else {
-    res.status(404).json({ code: 404, message: "No se encontro pathResolve", data:{} });
+    res.status(404).json({ code: 404, message: "No se encontro path Resolver", data:{} });
     next();
   }
 };
